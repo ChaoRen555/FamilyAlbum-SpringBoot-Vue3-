@@ -1,5 +1,6 @@
 package com.album.service;
 
+import com.album.entity.Account;
 import com.album.entity.Admin;
 import com.github.pagehelper.PageInfo;
 
@@ -19,4 +20,6 @@ public interface AdminService {
     List<Admin> selectAll(Admin admin);
 
     PageInfo<Admin> selectPage(Admin admin, Integer pageNum, Integer pageSize);
+
+    Account login(Account account);
 }

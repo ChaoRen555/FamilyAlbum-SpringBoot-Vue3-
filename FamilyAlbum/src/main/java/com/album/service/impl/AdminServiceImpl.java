@@ -3,10 +3,12 @@ package com.album.service.impl;
 import com.album.common.Constants;
 import com.album.common.enums.ResultCodeEnum;
 import com.album.common.enums.RoleEnum;
+import com.album.entity.Account;
 import com.album.entity.Admin;
 import com.album.exception.CustomerException;
 import com.album.mapper.AdminMapper;
 import com.album.service.AdminService;
+import com.album.utils.TokenUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -75,5 +77,24 @@ public class AdminServiceImpl implements AdminService {
         return new PageInfo<>(page);
     }
 
+    /**
+     * Login
+     */
+    public Account login(Account account) {
+        //Test username and password
+        Admin admin = adminMapper.getByUsername(account.getUsername());
+        if (admin == null) {
+            throw new CustomerException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
+        }
+        if (!account.getPassword().equals(admin.getPassword())) {
+            throw new CustomerException(ResultCodeEnum.USER_ACCOUNT_ERROR);
+        }
+
+        //Give the token
+        String data = admin.getId() + "-" + RoleEnum.ADMIN.name();
+        String token = TokenUtils.createToken(data, admin.getPassword());
+        admin.setToken(token);
+        return admin;
+    }
 
 }
