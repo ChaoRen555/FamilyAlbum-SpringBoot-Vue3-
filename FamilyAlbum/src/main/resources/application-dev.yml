@@ -1,9 +1,0 @@
-Album:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    host: localhost
-    port: 3306
-    database: Album
-    username: root
-    password: qwqw12311
-
