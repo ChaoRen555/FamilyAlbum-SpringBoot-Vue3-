@@ -29,4 +29,12 @@ logging:
         controller: info
 
 
+aws:
+  s3:
+    access-key: ${Album.aws.s3.access-key}
+    secret-key: ${Album.aws.s3.secret-key}
+    region: ${Album.aws.s3.region}
+    bucket-name: ${Album.aws.s3.bucket-name}
+    base-url: ${Album.aws.s3.base-url}
+
 

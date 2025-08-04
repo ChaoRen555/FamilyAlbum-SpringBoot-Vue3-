@@ -8,3 +8,6 @@ FamilyAlbum/target/
 # Node frontend
 vue3/node_modules/
 vue3/dist/
+
+**/application-dev.yml
+
