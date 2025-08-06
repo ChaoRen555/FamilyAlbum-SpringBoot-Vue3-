@@ -9,12 +9,13 @@ import com.album.exception.CustomerException;
 import com.album.mapper.AdminMapper;
 import com.album.service.AdminService;
 import com.album.utils.TokenUtils;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 
 import java.util.List;
 
@@ -23,7 +24,10 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private AdminMapper adminMapper;
-
+    @Autowired
+    private S3Client s3Client;
+    @Value("${aws.s3.bucket-name}")
+    private String bucketName;
 
     public void add(Admin admin) {
 
@@ -60,6 +64,20 @@ public class AdminServiceImpl implements AdminService {
 
 
     public void update(Admin admin) {
+        // Retrieve the original avatar from database
+        Admin dbAdmin = adminMapper.selectById(admin.getId());
+        String oldAvatar = dbAdmin.getAvatar();
+        String newAvatar = admin.getAvatar();
+
+        // Check whether the old avatar needs to be deleted
+        if (oldAvatar != null && !oldAvatar.equals(newAvatar)) {
+            String objectKey = oldAvatar.substring(oldAvatar.lastIndexOf("/") + 1);
+            DeleteObjectRequest request = DeleteObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(objectKey)
+                    .build();
+            s3Client.deleteObject(request);
+        }
         adminMapper.update(admin);
     }
 

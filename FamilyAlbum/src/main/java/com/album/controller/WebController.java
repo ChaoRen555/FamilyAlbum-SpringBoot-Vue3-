@@ -30,7 +30,7 @@ public class WebController {
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             loginAccount = adminService.login(account);
         }
-        //TODO If account is User
+        //TODO If account was an User
         return Result.success(loginAccount);
     }
 }

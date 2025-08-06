@@ -1,5 +1,6 @@
 package com.album.controller;
 
+import cn.hutool.core.lang.UUID;
 import com.album.common.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @RestController
-@RequestMapping("/file")
+@RequestMapping("/files")
 public class FileController {
     @Value("${aws.s3.bucket-name}")
     private String bucketName;

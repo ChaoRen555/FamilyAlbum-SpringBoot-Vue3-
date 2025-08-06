@@ -8,13 +8,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
-
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") // 允许跨域的路径
-                .allowedOriginPatterns("*") // Spring Boot 2.4+ 推荐用法（支持通配符）
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 允许的 HTTP 方法
-                .allowedHeaders("*") // 允许的请求头
-                .allowCredentials(true) // 是否允许发送 Cookie
-                .maxAge(3600); // 预检请求的缓存时间（秒）
+        registry.addMapping("/**") // Allowed cross-origin paths
+                .allowedOriginPatterns("*") // Recommended in Spring Boot 2.4+ (supports wildcards)
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allowed HTTP methods
+                .allowedHeaders("*") // Allowed request headers
+                .allowCredentials(true) // Whether to allow sending cookies
+                .maxAge(3600); // Cache duration for preflight requests (in seconds)
     }
+
 }
