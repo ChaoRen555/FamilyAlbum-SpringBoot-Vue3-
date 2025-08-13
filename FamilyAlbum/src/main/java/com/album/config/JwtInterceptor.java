@@ -8,6 +8,7 @@ import com.album.entity.Account;
 import com.album.exception.CustomerException;
 import com.album.service.AdminService;
 import com.album.service.UserService;
+import com.album.utils.BaseContext;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -64,6 +65,15 @@ public class JwtInterceptor implements HandlerInterceptor {
         } catch (JWTVerificationException e) {
             throw new CustomerException(ResultCodeEnum.INVALID_TOKEN_ERROR);
         }
+        //Set account in the local thread
+        BaseContext.setCurrentAccount(account);
         return true;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+                                Object handler, Exception ex) {
+
+        BaseContext.removeCurrentAccount();
     }
 }
