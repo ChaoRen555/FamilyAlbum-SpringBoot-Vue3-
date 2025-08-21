@@ -4,10 +4,12 @@ import cn.hutool.core.util.ObjectUtil;
 import com.album.common.Constants;
 import com.album.common.enums.ResultCodeEnum;
 import com.album.common.enums.RoleEnum;
+import com.album.entity.Account;
 import com.album.entity.User;
 import com.album.exception.CustomerException;
 import com.album.mapper.UserMapper;
 import com.album.service.UserService;
+import com.album.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateById(User user) {
         userMapper.updateById(user);
+    }
+
+    @Override
+    public Account login(Account account) {
+        User dbUser = userMapper.selectByUsername(account.getUsername());
+        if (ObjectUtil.isNull(dbUser)) {
+            throw new CustomerException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
+        }
+        if (!account.getPassword().equals(dbUser.getPassword())) {
+            throw new CustomerException(ResultCodeEnum.USER_ACCOUNT_ERROR);
+        }
+        // Generate token
+        String tokenData = dbUser.getId() + "-" + RoleEnum.USER.name();
+        String token = TokenUtils.createToken(tokenData, dbUser.getPassword());
+        dbUser.setToken(token);
+        return dbUser;
+    }
+
+    @Override
+    public void register(Account account) {
+        User user = new User();
+        user.setUsername(account.getUsername());
+        user.setPassword(account.getPassword());
+        this.add(user);
     }
 
 

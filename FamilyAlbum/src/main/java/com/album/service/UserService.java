@@ -1,5 +1,6 @@
 package com.album.service;
 
+import com.album.entity.Account;
 import com.album.entity.User;
 import com.github.pagehelper.PageInfo;
 
@@ -19,4 +20,8 @@ public interface UserService {
     void deleteBatch(List<Integer> ids);
 
     void updateById(User user);
+
+    Account login(Account account);
+
+    void register(Account account);
 }

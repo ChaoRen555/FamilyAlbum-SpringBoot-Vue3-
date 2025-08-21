@@ -4,6 +4,7 @@ import com.album.common.Result;
 import com.album.common.enums.RoleEnum;
 import com.album.entity.Account;
 import com.album.service.AdminService;
+import com.album.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,8 @@ public class WebController {
 
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/")
     public Result hello() {
@@ -30,7 +33,15 @@ public class WebController {
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             loginAccount = adminService.login(account);
         }
-        //TODO If account was an User
+        if (RoleEnum.USER.name().equals(account.getRole())) {
+            loginAccount = userService.login(account);
+        }
         return Result.success(loginAccount);
+    }
+
+    @PostMapping("/register")
+    public Result register(@RequestBody Account account) {
+        userService.register(account);
+        return Result.success();
     }
 }
