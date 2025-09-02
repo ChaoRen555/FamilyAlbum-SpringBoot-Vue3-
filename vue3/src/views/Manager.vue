@@ -14,8 +14,10 @@
       <div class="manager-header-right">
         <el-dropdown style="cursor: pointer;">
           <div style="padding-right: 20px; display: flex; align-items: center;">
-            <img v-if="data.user.avatar" :src="data.user?.avatar" alt="" style="width: 40px; height: 40px; display: block; border-radius: 50%">
-            <img v-else src="@/assets/imgs/ava.png" alt="" style="width: 40px; height: 40px; display: block; border-radius: 50%">
+            <img v-if="data.user.avatar" :src="data.user?.avatar" alt=""
+                 style="width: 40px; height: 40px; display: block; border-radius: 50%">
+            <img v-else src="@/assets/imgs/ava.png" alt=""
+                 style="width: 40px; height: 40px; display: block; border-radius: 50%">
             <span style="margin-left: 5px">{{ data.user?.name }}</span>
           </div>
           <template #dropdown>
@@ -37,17 +39,41 @@
             router
         >
           <el-menu-item index="/manager/home">
-            <el-icon><home-filled /></el-icon><span>System Home</span>
+            <el-icon>
+              <home-filled/>
+            </el-icon>
+            <span>System Home</span>
           </el-menu-item>
+
           <el-menu-item index="/manager/albums">
-            <el-icon><Picture /></el-icon><span>Albums</span>
+            <el-icon>
+              <Picture/>
+            </el-icon>
+            <span>Albums</span>
           </el-menu-item>
+
+          <el-sub-menu index="1">
+            <template #title>
+              <el-icon>
+                <Menu/>
+              </el-icon>
+              <span>Manage Info</span>
+            </template>
+            <el-menu-item index="/manager/category" v-if="data.user.role === 'ADMIN'">AlbumInfo</el-menu-item>
+            <el-menu-item index="/manager/category" v-else>My album</el-menu-item>
+            <el-menu-item index="/manager/picture" v-if="data.user.role === 'ADMIN'">Picture Info</el-menu-item>
+            <el-menu-item index="/manager/picture" v-else>My picture</el-menu-item>
+
+          </el-sub-menu>
 
           <el-sub-menu index="2" v-if="data.user.role === 'ADMIN'">
             <template #title>
-              <el-icon><UserFilled /></el-icon>
+              <el-icon>
+                <UserFilled/>
+              </el-icon>
               <span>Info</span>
             </template>
+
             <el-menu-item index="/manager/admin">Admin Info</el-menu-item>
             <el-menu-item index="/manager/user">User Info</el-menu-item>
           </el-sub-menu>
@@ -55,7 +81,7 @@
       </div>
 
       <div class="manager-main-right">
-        <router-view @updateUser="updateUser" />
+        <router-view @updateUser="updateUser"/>
       </div>
     </div>
 
@@ -68,7 +94,7 @@ import router from "@/router";
 import {ElMessage} from "element-plus";
 
 const data = reactive({
-  user:  JSON.parse(localStorage.getItem('xm-user') || '{}')
+  user: JSON.parse(localStorage.getItem('xm-user') || '{}')
 })
 
 const logout = () => {
