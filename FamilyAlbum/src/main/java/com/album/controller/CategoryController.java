@@ -61,5 +61,13 @@ public class CategoryController {
         return Result.success(page);
     }
 
+    @GetMapping("/selectAlbumPage")
+    public Result selectAlbumPage(Category category,
+                                  @RequestParam(defaultValue = "1") Integer pageNum,
+                                  @RequestParam(defaultValue = "10") Integer pageSize) {
+        PageInfo<Category> page = categoryService.selectAlbumPage(category, pageNum, pageSize);
+        return Result.success(page);
+    }
+
 
 }

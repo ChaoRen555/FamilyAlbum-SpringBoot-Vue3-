@@ -19,4 +19,6 @@ public interface CategoryService {
     Category selectById(Integer id);
 
     PageInfo<Category> selectPage(Category category, Integer pageNum, Integer pageSize);
+
+    PageInfo<Category> selectAlbumPage(Category category, Integer pageNum, Integer pageSize);
 }

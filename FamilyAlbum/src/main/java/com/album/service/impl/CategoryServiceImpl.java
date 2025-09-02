@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -83,6 +84,21 @@ public class CategoryServiceImpl implements CategoryService {
                 dbCategory.setUserAvatar(user.getAvatar());
             }
         }
+        return new PageInfo<>(list);
+    }
+
+    @Override
+    public PageInfo<Category> selectAlbumPage(Category category, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Category> list = this.selectAll(category);
+        for (Category dbCategory : list) {
+            User user = userService.selectById(dbCategory.getUserId());
+            if (ObjectUtil.isNotEmpty(user)) {
+                dbCategory.setUserName(user.getName());
+                dbCategory.setUserAvatar(user.getAvatar());
+            }
+        }
+        Collections.shuffle(list);
         return new PageInfo<>(list);
     }
 }
