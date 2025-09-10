@@ -63,7 +63,8 @@
             <el-menu-item index="/manager/category" v-else>My album</el-menu-item>
             <el-menu-item index="/manager/picture" v-if="data.user.role === 'ADMIN'">Picture Info</el-menu-item>
             <el-menu-item index="/manager/picture" v-else>My picture</el-menu-item>
-
+            <el-menu-item index="/manager/collect" v-if="data.user.role === 'ADMIN'">Collect Info</el-menu-item>
+            <el-menu-item index="/manager/collect" v-else>My collect</el-menu-item>
           </el-sub-menu>
 
           <el-sub-menu index="2" v-if="data.user.role === 'ADMIN'">
