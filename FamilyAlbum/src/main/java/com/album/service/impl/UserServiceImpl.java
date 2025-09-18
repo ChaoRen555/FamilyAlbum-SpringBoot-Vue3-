@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteBatch(List<Integer> ids) {
-       userMapper.deleteIds(ids);
+        userMapper.deleteIds(ids);
     }
 
     @Override
@@ -94,5 +94,17 @@ public class UserServiceImpl implements UserService {
         this.add(user);
     }
 
+    @Override
+    public void updatePassword(Account account) {
+        User dbUser = userMapper.selectById(account.getId());
+        if (ObjectUtil.isNull(dbUser)) {
+            throw new CustomerException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
+        }
+        if (!account.getPassword().equals(dbUser.getPassword())) {
+            throw new CustomerException(ResultCodeEnum.PASSWORD_ERROR);
+        }
+        dbUser.setPassword(account.getNewPassword());
+        userMapper.updateById(dbUser);
+    }
 
 }

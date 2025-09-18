@@ -8,13 +8,13 @@ import com.album.entity.Admin;
 import com.album.exception.CustomerException;
 import com.album.mapper.AdminMapper;
 import com.album.service.AdminService;
+import com.album.utils.BaseContext;
 import com.album.utils.S3Utils;
 import com.album.utils.TokenUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 
 import java.util.List;
@@ -104,6 +104,19 @@ public class AdminServiceImpl implements AdminService {
         String token = TokenUtils.createToken(data, admin.getPassword());
         admin.setToken(token);
         return admin;
+    }
+
+    @Override
+    public void updatePassword(Account account) {
+        Admin dbAdmin = adminMapper.selectById(account.getId());
+        if (dbAdmin == null) {
+            throw new CustomerException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
+        }
+        if (!account.getPassword().equals(dbAdmin.getPassword())) {
+            throw new CustomerException(ResultCodeEnum.PASSWORD_ERROR);
+        }
+        dbAdmin.setPassword(account.getNewPassword());
+        adminMapper.update(dbAdmin);
     }
 
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@ControllerAdvice(basePackages="com.example.controller")
+@ControllerAdvice(basePackages="com.album.controller")
 @Slf4j
 public class GlobalExceptionHandler {
 

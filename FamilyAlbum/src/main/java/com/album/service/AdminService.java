@@ -22,4 +22,7 @@ public interface AdminService {
     PageInfo<Admin> selectPage(Admin admin, Integer pageNum, Integer pageSize);
 
     Account login(Account account);
+
+    void updatePassword(Account account);
+
 }

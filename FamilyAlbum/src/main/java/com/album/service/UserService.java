@@ -24,4 +24,7 @@ public interface UserService {
     Account login(Account account);
 
     void register(Account account);
+
+    void updatePassword(Account account);
+
 }

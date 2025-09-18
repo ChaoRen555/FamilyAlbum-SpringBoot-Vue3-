@@ -9,6 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
+
     @Select("select * from user where id = #{id}")
     User selectById(Integer id);
 

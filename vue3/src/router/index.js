@@ -19,8 +19,12 @@ const router = createRouter({
                 {path: 'albums', meta: {name: 'Photo Gallery'}, component: () => import('@/views/manager/Albums.vue')},
                 {path: 'category', meta: {name: 'Album Details'}, component: () => import('@/views/manager/Category.vue')},
                 { path: 'pictures', meta: { name: 'Photo Info' }, component: () => import('@/views/manager/Pictures.vue')},
+                { path: 'collect', meta: { name: 'Collect Info' }, component: () => import('@/views/manager/Collect.vue')},
+                { path: 'person', meta: { name: 'Profile' }, component: () => import('@/views/manager/Person.vue')},
+                { path: 'password', meta: { name: 'Change password' }, component: () => import('@/views/manager/Password.vue')},
             ]
-        }
+        },
+
 
     ]
 })
